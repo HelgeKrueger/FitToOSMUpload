@@ -1,0 +1,17 @@
+apply plugin: 'groovy'
+apply plugin: 'application'
+mainClassName = 'com.github.helgekrueger.fittogpx.fittogpx'
+
+group = "com.github.helgekrueger.fittogpx"
+version = "0.0.1"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'joda-time:joda-time:2.8'
+    compile 'org.codehaus.groovy:groovy-all:2.4.1'
+    compile files('lib/fit.jar')
+    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+}
