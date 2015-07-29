@@ -37,10 +37,20 @@ class fittogpx {
 
         messageBroadcaster.run(inputFile)
 
-        def gpxWriter = new GpxWriter(new PrintWriter(new File(outFilename)))
+        def writer = new StringWriter()
+
+        def gpxWriter = new GpxWriter(writer)
         data = data.findAll{ row -> !fittogpx.inBox(row) }
 
         gpxWriter.write(data)
+
+        def httpClient = new HttpClient(
+            consumerKey: '',
+            consumerSecret: '',
+            accessToken: '',
+            tokenSecret: '',
+        )
+        httpClient.uploadGpx(writer.toString())
     }
 
     static usage() {

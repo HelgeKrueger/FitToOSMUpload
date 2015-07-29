@@ -1,0 +1,43 @@
+package com.github.helgekrueger.fittogpx
+
+import groovyx.net.http.HTTPBuilder
+import static groovyx.net.http.Method.POST
+
+import org.apache.commons.io.IOUtils
+import org.apache.http.entity.ContentType
+import org.apache.http.entity.mime.MultipartEntityBuilder
+import org.apache.http.entity.mime.HttpMultipartMode
+import org.apache.http.entity.mime.content.ByteArrayBody
+import org.apache.http.entity.mime.content.StringBody
+
+class HttpClient {
+
+    def location = 'https://api.openstreetmap.org/'
+    def createEndpoint = '/api/0.6/gpx/create'
+
+    def consumerKey
+    def consumerSecret
+    def accessToken
+    def tokenSecret
+
+    def uploadGpx(gpxString) {
+        def http = new HTTPBuilder(location)
+        http.auth.oauth(consumerKey, consumerSecret, accessToken, tokenSecret)
+        http.request(POST) { request ->
+            uri.path = createEndpoint
+
+            MultipartEntityBuilder multipartRequest = MultipartEntityBuilder.create()
+            multipartRequest.setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
+            multipartRequest.addTextBody('description', 'Activity', ContentType.TEXT_XML)
+            multipartRequest.addTextBody('visibility', 'identifiable', ContentType.TEXT_XML)
+            multipartRequest.addBinaryBody('file', IOUtils.toInputStream(gpxString), ContentType.TEXT_XML, 'activity.gpx')
+
+            requestContentType = 'multipart/form-data'
+            request.entity = multipartRequest.build()
+
+            response.failure = { resp ->
+                println 'Something went wrong'
+            }
+        }
+    }
+}
