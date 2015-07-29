@@ -7,9 +7,9 @@ Tool to convert Garmin's FIT format to GPX and censor data not relevant for Open
 - Place the contained fit.jar in the project's lib folder
 - Edit fittogpx's inBox method to mask your home coordinates.
 - Configure oAuth
--- Register an application for OpenStreetMap
--- Run the script script/OSMAuth.groovy to obtain your token and token secret.
--- Edit fittogpx to add the oauth credentials
+ - Register an application for OpenStreetMap
+ - Run the script script/OSMAuth.groovy to obtain your token and token secret.
+ - Edit fittogpx to add the oauth credentials
 - Check that everything works with gradle check
 - Build the project with gradle installDist
 - You can find the executable under build/install/FitToOSMUpload/bin
