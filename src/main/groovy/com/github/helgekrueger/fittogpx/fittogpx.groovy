@@ -45,10 +45,7 @@ class fittogpx {
         gpxWriter.write(data)
 
         def httpClient = new HttpClient(
-            consumerKey: '',
-            consumerSecret: '',
-            accessToken: '',
-            tokenSecret: '',
+            propertyFileName: System.getProperty('user.home') + '/.config/osmauth.properties',
         )
         httpClient.uploadGpx(writer.toString())
     }

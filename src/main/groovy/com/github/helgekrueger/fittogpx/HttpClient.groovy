@@ -15,14 +15,12 @@ class HttpClient {
     def location = 'https://api.openstreetmap.org/'
     def createEndpoint = '/api/0.6/gpx/create'
 
-    def consumerKey
-    def consumerSecret
-    def accessToken
-    def tokenSecret
+    def propertyFileName
 
     def uploadGpx(gpxString) {
         def http = new HTTPBuilder(location)
-        http.auth.oauth(consumerKey, consumerSecret, accessToken, tokenSecret)
+        def oauth = new OsmOAuth(propertyFileName)
+        oauth.configureHttpBuilder(http)
         http.request(POST) { request ->
             uri.path = createEndpoint
 
