@@ -13,7 +13,6 @@ class OsmOAuth {
     private propertyFile
 
     def OsmOAuth(propertyFileName) {
-        println propertyFileName
         propertyFile = new File(propertyFileName)
         props = new Properties()
         props.load(new FileInputStream(propertyFile))
