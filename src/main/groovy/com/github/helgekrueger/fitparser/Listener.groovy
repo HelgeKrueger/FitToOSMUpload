@@ -1,7 +1,8 @@
-package com.github.helgekrueger.fittogpx
+package com.github.helgekrueger.fitparser
 
 import com.garmin.fit.BufferedRecordMesg
 import com.garmin.fit.BufferedRecordMesgListener
+import com.github.helgekrueger.fittogpx.DateTools
 
 class Listener implements BufferedRecordMesgListener {
 

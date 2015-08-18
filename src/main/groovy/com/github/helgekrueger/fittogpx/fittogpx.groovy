@@ -1,7 +1,6 @@
 package com.github.helgekrueger.fittogpx
 
-import com.garmin.fit.MesgBroadcaster
-import com.garmin.fit.BufferedRecordMesgListener
+import com.github.helgekrueger.fitparser.FitParser
 
 class fittogpx {
 
@@ -28,15 +27,9 @@ class fittogpx {
             return
         }
 
+        def data = new FitParser(inputFile: inputFile).parseInputFile()
+
         println "Writing to file ${outFilename}."
-        
-        def data = []
-        def messageBroadcaster = new MesgBroadcaster()
-        def listener = new Listener(data)
-        messageBroadcaster.addListener(listener as BufferedRecordMesgListener)
-
-        messageBroadcaster.run(inputFile)
-
         def writer = new StringWriter()
 
         def gpxWriter = new GpxWriter(writer)
