@@ -2,13 +2,13 @@ package com.github.helgekrueger.fitparser
 
 import com.garmin.fit.BufferedRecordMesg
 import com.garmin.fit.BufferedRecordMesgListener
-import com.github.helgekrueger.fittogpx.DateTools
+import org.joda.time.DateTime
 
 class Listener implements BufferedRecordMesgListener {
 
     def data
 
-    def Listener(data) {
+    Listener(data) {
         this.data = data
     }
 
@@ -19,12 +19,16 @@ class Listener implements BufferedRecordMesgListener {
                 lat: convert(mesg.positionLat),
                 lon: convert(mesg.positionLong),
                 ele: mesg.altitude,
-                time: DateTools.convertGarminDate(mesg.timestamp),
+                time: convertGarminDate(mesg.timestamp),
             ]
         }
     }
 
+    static convertGarminDate(date) {
+        new DateTime(date.date)
+    }
+
     def convert(num) {
-        num / 2**31 * 180
+        num / 2 ** 31 * 180
     }
 }

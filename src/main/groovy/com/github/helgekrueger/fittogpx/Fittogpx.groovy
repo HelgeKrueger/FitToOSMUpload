@@ -1,10 +1,11 @@
 package com.github.helgekrueger.fittogpx
 
 import com.github.helgekrueger.fitparser.FitParser
+import com.github.helgekrueger.osmupload.OsmUpload
 
-class fittogpx {
+class Fittogpx {
 
-    public static void main(String[] args) {
+    static void main(String[] args) {
 
         if (!args) {
             usage()
@@ -18,35 +19,23 @@ class fittogpx {
             return
         }
 
+        def data = getDataFromFile(filename)
+        new OsmUpload().upload(data)
+    }
+
+    static getDataFromFile(filename) {
         def inputFile
-        def outFilename = FileTools.changeFitToGpx(filename)
         try {
             inputFile = new FileInputStream(filename)
         } catch (ex) {
             println "Failed to open ${filename}."
             return
         }
-
-        def data = new FitParser(inputFile: inputFile).parseInputFile()
-
-        println "Writing to file ${outFilename}."
-        def writer = new StringWriter()
-
-        def gpxWriter = new GpxWriter(writer)
-        data = data.findAll{ row -> !fittogpx.inBox(row) }
-
-        gpxWriter.write(data)
-
-        def httpClient = new HttpClient(
-            propertyFileName: System.getProperty('user.home') + '/.config/osmauth.properties',
-        )
-        httpClient.uploadGpx(writer.toString())
+        new FitParser(inputFile: inputFile).parseInputFile()
     }
 
     static usage() {
-        println """
-        fittogpx filename
-        """
+        println 'fittogpx filename'
     }
 
     static inBox(pos) {

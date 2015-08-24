@@ -1,14 +1,13 @@
-package com.github.helgekrueger.fittogpx
+package com.github.helgekrueger.osmupload
+
+import static groovyx.net.http.Method.POST
 
 import groovyx.net.http.HTTPBuilder
-import static groovyx.net.http.Method.POST
 
 import org.apache.commons.io.IOUtils
 import org.apache.http.entity.ContentType
 import org.apache.http.entity.mime.MultipartEntityBuilder
 import org.apache.http.entity.mime.HttpMultipartMode
-import org.apache.http.entity.mime.content.ByteArrayBody
-import org.apache.http.entity.mime.content.StringBody
 
 class HttpClient {
 
@@ -28,7 +27,11 @@ class HttpClient {
             multipartRequest.setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
             multipartRequest.addTextBody('description', 'Activity', ContentType.TEXT_XML)
             multipartRequest.addTextBody('visibility', 'identifiable', ContentType.TEXT_XML)
-            multipartRequest.addBinaryBody('file', IOUtils.toInputStream(gpxString), ContentType.TEXT_XML, 'activity.gpx')
+            multipartRequest.addBinaryBody(
+                'file',
+                IOUtils.toInputStream(gpxString),
+                ContentType.TEXT_XML,
+                'activity.gpx')
 
             requestContentType = 'multipart/form-data'
             request.entity = multipartRequest.build()

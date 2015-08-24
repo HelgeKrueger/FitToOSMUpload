@@ -1,4 +1,4 @@
-package com.github.helgekrueger.fittogpx
+package com.github.helgekrueger.osmupload
 
 import groovy.xml.MarkupBuilder
 

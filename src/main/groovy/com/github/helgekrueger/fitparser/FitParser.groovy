@@ -15,6 +15,6 @@ class FitParser {
 
         messageBroadcaster.run(inputFile)
 
-        return data
+        data
     }
 }

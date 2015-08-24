@@ -1,6 +1,8 @@
 apply plugin: 'groovy'
+apply plugin: 'codenarc'
+
 apply plugin: 'application'
-mainClassName = 'com.github.helgekrueger.fittogpx.fittogpx'
+mainClassName = 'com.github.helgekrueger.fittogpx.Fittogpx'
 
 group = "com.github.helgekrueger.fittogpx"
 version = "0.0.1"

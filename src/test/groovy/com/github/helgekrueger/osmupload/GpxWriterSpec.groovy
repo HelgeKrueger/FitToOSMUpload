@@ -1,4 +1,4 @@
-package com.github.helgekrueger.fittogpx
+package com.github.helgekrueger.osmupload
 
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone

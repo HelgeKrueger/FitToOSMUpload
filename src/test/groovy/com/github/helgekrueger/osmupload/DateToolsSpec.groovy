@@ -1,21 +1,10 @@
-package com.github.helgekrueger.fittogpx
+package com.github.helgekrueger.osmupload
 
-import com.garmin.fit.DateTime as GarminDate
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import spock.lang.Specification
 
 class DateToolsSpec extends Specification {
-
-    def 'test date conversion'() {
-        setup:
-        def date = new Date()
-        def jodaDate = new DateTime(date)
-        def garminDate = new GarminDate(date)
-
-        expect:
-        DateTools.convertGarminDate(garminDate) == jodaDate
-    }
 
     def 'test  formatDateForGpx'() {
         setup:

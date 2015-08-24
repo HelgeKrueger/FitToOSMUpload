@@ -1,8 +1,8 @@
-package com.github.helgekrueger.fittogpx
+package com.github.helgekrueger.osmupload
 
-
-import oauth.signpost.*
-import oauth.signpost.basic.*
+import oauth.signpost.OAuth
+import oauth.signpost.basic.DefaultOAuthConsumer
+import oauth.signpost.basic.DefaultOAuthProvider
 
 class OsmOAuth {
     final requestTokenUrl = 'https://www.openstreetmap.org/oauth/request_token'
@@ -12,7 +12,7 @@ class OsmOAuth {
     private props
     private propertyFile
 
-    def OsmOAuth(propertyFileName) {
+    OsmOAuth(propertyFileName) {
         propertyFile = new File(propertyFileName)
         props = new Properties()
         props.load(new FileInputStream(propertyFile))
@@ -23,10 +23,10 @@ class OsmOAuth {
             retrieveToken()
         }
         httpBuilder.auth.oauth(
-            props.getProperty('consumerKey'), 
-            props.getProperty('consumerSecret'), 
-            props.getProperty('consumerToken'), 
-            props.getProperty('consumerTokenSecret')
+            props.getProperty('consumerKey'),
+            props.getProperty('consumerSecret'),
+            props.getProperty('consumerToken'),
+            props.getProperty('consumerTokenSecret'),
        )
     }
 
@@ -35,13 +35,13 @@ class OsmOAuth {
     }
 
     private retrieveToken() {
-        consumerKey = getFromPropertyFileOrUserInput('consumerKey', "Enter your consumer key")
-        consumerSecret = getFromPropertyFileOrUserInput('consumerSecret', "Enter your consumer secret")
+        consumerKey = getFromPropertyFileOrUserInput('consumerKey', 'Enter your consumer key')
+        consumerSecret = getFromPropertyFileOrUserInput('consumerSecret', 'Enter your consumer secret')
 
         consumer = new DefaultOAuthConsumer(consumerKey, consumerSecret)
         provider = new DefaultOAuthProvider(requestTokenUrl, accessTokenUrl, authorizeUrl)
 
-        println "Go to the following URL and then enter the PIN on this page."
+        println 'Go to the following URL and then enter the PIN on this page.'
         println provider.retrieveRequestToken(consumer, OAuth.OUT_OF_BAND)
         token = System.console().readLine()
 

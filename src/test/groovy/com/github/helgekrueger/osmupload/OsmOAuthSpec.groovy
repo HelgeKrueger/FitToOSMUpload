@@ -1,4 +1,4 @@
-package com.github.helgekrueger.fittogpx
+package com.github.helgekrueger.osmupload
 
 import spock.lang.Specification
 
@@ -10,7 +10,7 @@ class OsmOAuthSpec extends Specification {
         tmpFile.deleteOnExit()
 
         when:
-        def osm = new OsmOAuth(tmpFile.getAbsolutePath())
+        def osm = new OsmOAuth(tmpFile.absolutePath)
 
         then:
         ! osm.isOauthConfigured()
@@ -20,13 +20,13 @@ class OsmOAuthSpec extends Specification {
         setup:
         def tmpFile = File.createTempFile('test', 'properties')
         tmpFile.deleteOnExit()
-        
+
         def props = new Properties()
         ['consumerKey', 'consumerSecret', 'consumerToken', 'consumerTokenSecret'].each{ props.setProperty(it, it) }
         props.store(new FileOutputStream(tmpFile), null)
 
         when:
-        def osm = new OsmOAuth(tmpFile.getAbsolutePath())
+        def osm = new OsmOAuth(tmpFile.absolutePath)
 
         then:
         osm.isOauthConfigured()
@@ -36,7 +36,7 @@ class OsmOAuthSpec extends Specification {
         setup:
         def tmpFile = File.createTempFile('test', 'properties')
         tmpFile.deleteOnExit()
-        
+
         def props = new Properties()
         ['consumerKey', 'consumerSecret', 'consumerToken', 'consumerTokenSecret'].each{ props.setProperty(it, it) }
         props.store(new FileOutputStream(tmpFile), null)
@@ -45,13 +45,13 @@ class OsmOAuthSpec extends Specification {
         def fakeHttpBuilder = [
             auth: [
                 oauth: { a, b, c, d ->
-                    args = [a,b,c,d]
+                    args = [a, b, c, d]
                 },
             ],
         ]
 
         when:
-        def osm = new OsmOAuth(tmpFile.getAbsolutePath())
+        def osm = new OsmOAuth(tmpFile.absolutePath)
         osm.configureHttpBuilder(fakeHttpBuilder)
 
         then:
