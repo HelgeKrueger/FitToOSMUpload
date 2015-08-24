@@ -2,6 +2,7 @@ package com.github.helgekrueger.fittogpx
 
 import com.github.helgekrueger.fitparser.FitParser
 import com.github.helgekrueger.osmupload.OsmUpload
+import com.github.helgekrueger.overpassgroovy.StreetNameExtractor
 
 class Fittogpx {
 
@@ -20,7 +21,9 @@ class Fittogpx {
         }
 
         def data = getDataFromFile(filename)
+
         new OsmUpload().upload(data)
+        // new StreetNameExtractor().printStreetNames(data)
     }
 
     static getDataFromFile(filename) {

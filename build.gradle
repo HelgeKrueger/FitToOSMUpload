@@ -22,5 +22,6 @@ dependencies {
     compile 'oauth.signpost:signpost-core:1.2.1.2'
     compile 'oauth.signpost:signpost-commonshttp4:1.2.1.2'
 
+    testCompile 'cglib:cglib:3.1'
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
 }

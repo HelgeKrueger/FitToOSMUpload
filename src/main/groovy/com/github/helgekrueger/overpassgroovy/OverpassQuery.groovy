@@ -4,8 +4,10 @@ import groovyx.net.http.RESTClient
 
 class OverpassQuery {
 
-    final url = 'http://overpass-api.de/'
-    final path = '/api/interpreter'
+    final url = 'http://overpass.osm.rambler.ru/'
+    final path = '/cgi/interpreter'
+    // final url = 'http://overpass-api.de/'
+    // final path = '/api/interpreter'
     final client = new RESTClient(url)
 
     def queryString(Closure criteria) {
@@ -53,6 +55,10 @@ class QueryParser {
 
     def box(latMin, lonMin, latMax, lonMax) {
         query += "($latMin,$lonMin,$latMax,$lonMax)"
+    }
+
+    def exist(key) {
+        query += "[\"$key\"]"
     }
 
     def methodMissing(String name, args) {

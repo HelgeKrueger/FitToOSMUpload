@@ -35,6 +35,18 @@ class OverpassQuerySpec extends Specification {
         } == '[out:json];node["highway"="bus_stop"]["shelter"="yes"](50.7,7.1,50.8,7.25);out;'
     }
 
+    def 'exist condition'() {
+        setup:
+        def overpass = new OverpassQuery()
+
+        expect:
+        overpass.queryString{
+            node {
+                exist 'highway'
+            }
+        } == '[out:json];node["highway"];out;'
+    }
+
     @spock.lang.Ignore
     def 'can query'() {
         setup:
