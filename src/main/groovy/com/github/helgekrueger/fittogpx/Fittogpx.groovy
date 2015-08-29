@@ -21,7 +21,6 @@ class Fittogpx {
         }
 
         def data = getDataFromFile(filename)
-
         new OsmUpload().upload(data)
         // new StreetNameExtractor().printStreetNames(data)
     }
@@ -39,10 +38,6 @@ class Fittogpx {
 
     static usage() {
         println 'fittogpx filename'
-    }
-
-    static inBox(pos) {
-        pos.lat <= 48.11 && pos.lat >= 48.10 && pos.lon >= 11.72 && pos.lon <= 11.73
     }
 }
 
