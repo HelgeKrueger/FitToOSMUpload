@@ -20,7 +20,7 @@ class GpxWriterSpec extends Specification {
         gpxWriter.write(data)
 
         then:
-        writer.toString() .replaceAll(' |\n', '') == """
+        writer.toString().replaceAll(' |\n', '') == """
             <gpx version='1.0'>
             <trk>
             <trkseg>
