@@ -2,8 +2,10 @@ package com.github.helgekrueger.geography
 
 import java.awt.Color
 import java.awt.geom.Path2D.Double as Path2D
+import java.awt.geom.Ellipse2D.Double as Ellipse
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
+import org.joda.time.Duration
 
 class Track {
 
@@ -40,7 +42,7 @@ class Track {
     }
 
     def pointsInBox(width, height) {
-        dataInUnitBox.collect{ [x: it.x * width, y: it.y * height] }
+        dataInUnitBox.collect{ it + [x: it.x * width, y: it.y * height] }
     }
 
     def shapeInBox(width, height) {
@@ -48,7 +50,7 @@ class Track {
         def path = new Path2D()
         path.moveTo(points.first().x, points.first().y)
 
-        points.each{ point -> 
+        points.each{ point ->
             path.lineTo(point.x, point.y)
         }
 
@@ -56,15 +58,42 @@ class Track {
     }
 
     def writeToPng() {
-        def bi = new BufferedImage(101, 101, BufferedImage.TYPE_INT_ARGB)
-        def graphics = bi.createGraphics()
+        def width = 100
+        def height = 100
+        def radius = 5
+        def shape = shapeInBox(width, height)
+        def filteredData = filterBySecondIncrement(100, 100, 5).reverse()
 
-        graphics.setBackground(Color.white)
-        graphics.setColor(Color.black)
-        
-        graphics.draw(shapeInBox(100, 100))
+        filteredData.eachWithIndex{ point, index ->
+            def bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
+            def graphics = bi.createGraphics()
 
-        def file = new File('out.png')
-        ImageIO.write(bi, 'png', file)
+            graphics.setBackground(Color.white)
+            graphics.clearRect(0, 0, width, height)
+
+            graphics.setColor(Color.black)
+            graphics.draw(shape)
+
+            graphics.setColor(Color.red)
+            def cornerX = point.x - radius
+            def cornerY = point.y - radius
+            graphics.draw(new Ellipse(cornerX, cornerY, 2 * radius, 2 * radius))
+
+            def file = new File(filenameForIndex(index))
+            ImageIO.write(bi, 'png', file)
+        }
+    }
+
+    private filenameForIndex(index) {
+        sprintf('out%06d.png', index)
+    }
+
+    def filterBySecondIncrement(width, height, step) {
+        def startTime = data.first().time
+        pointsInBox(width, height).findAll{ differenceInSeconds(it.time, startTime) % step == 0 }
+    }
+
+    private differenceInSeconds(time1, time2) {
+        new Duration(time2, time1).standardSeconds as Integer
     }
 }

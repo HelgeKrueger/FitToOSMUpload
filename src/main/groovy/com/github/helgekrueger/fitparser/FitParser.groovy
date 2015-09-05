@@ -5,9 +5,7 @@ import com.garmin.fit.BufferedRecordMesgListener
 
 class FitParser {
 
-    def inputFile
-
-    def parseInputFile() {
+    def parseInputFile(inputFile) {
         def data = []
         def messageBroadcaster = new MesgBroadcaster()
         def listener = new Listener(data)

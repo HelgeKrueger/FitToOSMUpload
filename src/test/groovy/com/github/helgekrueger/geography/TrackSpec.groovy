@@ -1,5 +1,6 @@
 package com.github.helgekrueger.geography
 
+import org.joda.time.DateTime
 import spock.lang.Specification
 
 class TrackSpec extends Specification {
@@ -31,8 +32,23 @@ class TrackSpec extends Specification {
 
         println shape
         then:
-        def bounds = shape.getBounds2D()
+        def bounds = shape.bounds2D
         bounds.height == 100
         bounds.width == 100
+    }
+
+    def 'get second increments'() {
+        setup:
+        def now = new DateTime()
+        def step = 5
+        def number = 20
+        def data = (0..(step * number)).collect{ [lat: it, lon: it, time: now.plusSeconds(it)] }
+
+        def track = new Track(data: data)
+
+        def expected = (0..number).collect{ now.plusSeconds(it * step) }
+
+        expect:
+        track.filterBySecondIncrement(1, 1, step)*.time == expected
     }
 }

@@ -3,7 +3,7 @@ package com.github.helgekrueger.overpassgroovy
 import spock.lang.Specification
 
 class StreetNameExtractorSpec extends Specification {
-    
+
     def 'retrieveStreetNames - returns an empty dataset on empty input'() {
         setup:
         def overpassQuery = Mock(OverpassQuery)

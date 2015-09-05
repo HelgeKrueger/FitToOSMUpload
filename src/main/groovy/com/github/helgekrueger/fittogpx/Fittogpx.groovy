@@ -8,23 +8,35 @@ import com.github.helgekrueger.geography.Track
 class Fittogpx {
 
     static void main(String[] args) {
-
-        if (!args) {
-            usage()
-            return
+        def cli = new CliBuilder(usage: 'use me')
+        cli.with{
+            h longOpt: 'help', 'print help'
+            s longOpt: 'street-name', 'requests street name from overpass api'
+            m longOpt: 'movie', 'generate pngs to make movie'
         }
 
-        def filename = args[0]
-
+        def options = cli.parse(args)
+        if (!options) {
+            return
+        }
+        if (options.h) {
+            cli.usage()
+            return
+        }
+        def filename = options.arguments().first()
         if (!FileTools.isValidFitFile(filename)) {
             println "Invalid filename ${filename}."
             return
         }
 
         def data = getDataFromFile(filename)
-        // new OsmUpload().upload(data)
-        // new StreetNameExtractor().printStreetNames(data)
-        new Track(data: data).writeToPng()
+        if (options.s) {
+            new StreetNameExtractor().printStreetNames(data)
+        } else if (options.m) {
+            new Track(data: data).writeToPng()
+        } else {
+            new OsmUpload().upload(data)
+        }
     }
 
     static getDataFromFile(filename) {
@@ -35,11 +47,7 @@ class Fittogpx {
             println "Failed to open ${filename}."
             return
         }
-        new FitParser(inputFile: inputFile).parseInputFile()
-    }
-
-    static usage() {
-        println 'fittogpx filename'
+        new FitParser().parseInputFile(inputFile)
     }
 }
 
