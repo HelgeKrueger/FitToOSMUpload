@@ -15,7 +15,7 @@ class TrackSpec extends Specification {
         def track = new Track(data: data)
 
         expect:
-        track.dataInUnitBox == [[x: 1, y: 0, lat: 10, lon: 20], [x: 0, y: 1, lat: 20, lon: 30]]
+        track.dataInUnitBox == [[x: 0, y: 1, lat: 10, lon: 20], [x: 1, y: 0, lat: 20, lon: 30]]
     }
 
     def 'path'() {

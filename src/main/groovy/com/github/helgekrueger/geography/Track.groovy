@@ -18,8 +18,8 @@ class Track {
 
         data.collect{ point ->
             point + [
-                x: (boundingBox.maxLon - point.lon) / lengthLon,
-                y: (point.lat - boundingBox.minLat) / lengthLat,
+                x: (point.lon - boundingBox.minLon) / lengthLon,
+                y: (boundingBox.maxLat - point.lat) / lengthLat,
             ]
         }
     }
@@ -62,7 +62,7 @@ class Track {
         def height = 100
         def radius = 5
         def shape = shapeInBox(width, height)
-        def filteredData = filterBySecondIncrement(100, 100, 5).reverse()
+        def filteredData = filterBySecondIncrement(100, 100, 5)
 
         filteredData.eachWithIndex{ point, index ->
             def bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
